@@ -133,4 +133,151 @@ const yearsUntilRetirement = function (birthYear, firstName) {
 console.log(yearsUntilRetirement(1991, 'Jonas'));
 console.log(yearsUntilRetirement(1951, 'Mike'));
 
+//////////////////////////////////////////////////////////////////////////////////
+// challenge 1
+
+const calcAverage = (a, b, c) => (a + b + c) / 3;
+
+const checkWinner = function(avgDolphins, avgKoalas) {
+  if (avgDolphins >= avgKoalas * 2) {
+    console.log(`Dolhins win (${avgDolphins} vs ${avgKoalas})`);
+  } else if (avgKoalas >= avgDolphins * 2) {
+    console.log(`Koalas win (${avgKoalas} vs ${avgDolphins})`);
+  } else {
+    console.log("no team wins")
+  }
+}
+
+// Test 1
+let scoreDolphins = calcAverage(44, 23, 71);
+let scoreKoalas = calcAverage(65, 54, 49);
+
+// Test 2
+scoreDolphins = calcAverage(85, 54, 41);
+scoreKoalas = calcAverage(23, 34, 27);
+console.log(checkWinner(scoreDolphins, scoreKoalas));
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+// 39. INTRODUCTION TO ARRAYS
+
+const friend1 = 'Michael';
+const friend2 = 'Steven';
+const friend3 = 'Peter';
+
+const friends =['Michael', 'Steven', 'Peter']
+console.log(friends);
+
+const years = new Array(1991,1984, 2008, 2020);
+
+
+console.log(friends[0]);
+console.log(friends.length);
+console.log(friends[friends.length -1]);
+
+friends[2] = 'Jay'; // I can change the value because only primitive values are immutable, an Array is not a primitive value.
+console.log(friends); 
+
+const firstName = 'Jonas'
+const jonas = [firstName, 'Schmedtmann', 2022 -1991, 'teacher', friends];
+console.log(jonas);
+
+
+const calcAge2 = function calcAge1(birthYear) {
+  return 2022 - birthYear;
+}
+
+const years2 = [1990, 1967, 2002, 2010, 2018];
+
+const age1 = calcAge2(years2[0]);
+const age2 = calcAge2(years2[0]);
+const age3 = calcAge2(years2[0]);
+console.log(age1,age2,age3)
+const ages = [calcAge2(years2[0]), calcAge2(years2[1]),calcAge2(years2[2])]
+console.log(ages)
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+//  40. Basic Array Operations (Methods)
+
+const friends =['Michael', 'Steven', 'Peter'];
+
+// Add elements
+const new_Length = friends.push('Jay');
+console.log(friends);
+console.log(new_Length);
+
+friends.unshift('John');
+console.log(friends);
+
+// Remove elements
+friends.pop(); // Last
+ const popped = friends.pop(); 
+console.log(popped);
+console.log(friends);
+
+friends.shift(); // First
+console.log(friends.indexOf('Steven'));
+console.log(friends.indexOf('Bob'));
+
+friends.push(23);
+console.log(friends.includes('Steven'));
+console.log(friends.includes('Bob'));
+console.log(friends.includes('23'));
+console.log(friends.includes(23));
+
+if (friends.includes('Peter')) {
+  console.log('You have a friend called Peter')
+} else {
+  console.log("You dont have a friend called Peter")
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// challenge 2
+
+const calcTip = function(bill) {
+  return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.20;
+  } 
+
+
+// OTRA FORMA MUY COOL
+// const calcTip = bill => bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.20;
+
+const bills = [125,555,44]
+
+const tips = [calcTip(bills[0]), calcTip(bills[1]),calcTip(bills[2])]
+const totals = [(tips[0]+bills[0]), (tips[1]+bills[1]),(tips[2]+bills[2])]
+console.log(bills, tips, totals);
+
 */
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// 42. Introduction to Objects
+
+const jonasArray = [
+  'Jonas',
+  'Schmedmann',
+  2022 -1991,
+  'teacher',
+  ['Michael', 'Peter', 'Steven']
+]
+
+const jonas = {
+  firstName: 'Jonas', 
+  lastName: 'Schmedmann',
+  age: 2022 -1991,
+  job: 'teacher',
+  friends: ['Michael', 'Peter', 'Steven']
+}
+
+console.log(jonas);
+console.log(jonas.lastName);
+console.log(jonas['lastName']);
+
+const nameKey = 'Name';
+console.log(jonas['first' + nameKey]);
+console.log(jonas['last' + nameKey]);
