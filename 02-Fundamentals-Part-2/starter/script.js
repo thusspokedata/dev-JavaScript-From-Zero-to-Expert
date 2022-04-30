@@ -403,7 +403,7 @@ for(let rep = 1; rep <= 10; rep++) {
   console.log('Lifting weights repetitions ' + rep)
 }
 
-*/
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////7
 // 47. Looping Arrays, Breaking and Continuing
@@ -451,4 +451,32 @@ console.log('--- BREAK WITH NUMBER ---');
 for(let i = 0; i < jonas.length; i++) {
   if(typeof jonas[i] === 'number') break;
   console.log(jonas[i], typeof jonas[i]);
+}
+
+*/
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// 48. Looping Backwards and Loops in Loops
+
+const jonas = [
+  'Jonas',
+  'Schmedmann',
+  2022 -1991,
+  'teacher',
+  ['Michael', 'Peter', 'Steven'],
+  true
+]
+
+for(let i = jonas.length -1; i >= 0; i--) {
+  // reading types jonas array
+  console.log(i, jonas[i], typeof jonas[i]);
+  // Filling types array
+  //types[i] = typeof jonas[1];
+}
+
+for (let exercise = 1; exercise < 4; exercise++) {
+  console.log(`----------------Starting exercise ${exercise}`);
+  for (let rep = 1; rep < 6; rep++)
+    console.log(`Exercise ${exercise}: Lifting weight repetition ${rep}`)
 }
