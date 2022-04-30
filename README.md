@@ -48,3 +48,34 @@ const total = [(tips[0]+bills[0]), (tips[1]+bills[1]),(tips[2]+bills[2])]
 console.log(bills, tips, total)
 
 ```
+**44. Object Methods**<em>very good function that I didnt kwon in python</em>
+
+```js
+const jonas = {
+  firstName: 'Jonas', 
+  lastName: 'Schmedmann',
+  birthYeah: 1991,
+  job: 'teacher',
+  friends: ['Michael', 'Peter', 'Steven'],
+  hasDriversLicense: true,
+
+  // calcAge: function(birthYeah) {
+  //   return 2022 - birthYeah
+  // }
+
+  // calcAge: function() {
+  //   console.log(this) // 'this' point to jonas
+  //   return 2022 - this.birthYeah
+  // }
+
+  calcAge: function() {
+    this.age = 2022 - this.birthYeah
+    return this.age;
+  }
+};
+
+console.log(jonas.calcAge()); // I need to activate the function just ones, then the new variable is created and I save computer time
+
+console.log(jonas.age);
+console.log(jonas.age);
+console.log(jonas.age);
