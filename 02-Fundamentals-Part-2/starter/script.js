@@ -305,7 +305,6 @@ console.log(jonas);
 
 console.log(`${jonas.firstName} has ${jonas.friends.length} friends, and his best friend is called ${jonas.friends[0]}`);
 
-*/
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 // 44. Object Methods
@@ -331,6 +330,10 @@ const jonas = {
   calcAge: function() {
     this.age = 2022 - this.birthYeah
     return this.age;
+  },
+
+  getSummary: function() {
+    return `${this.firstName} is a ${this.calcAge()}-year old ${this.job}, and he has ${this.hasDriversLicense ? 'a' : 'not'} driver's license.`
   }
 };
 
@@ -341,3 +344,111 @@ console.log(jonas.age);
 console.log(jonas.age);
 
 // console.log(jonas['calcAge'](1991));
+
+
+// CHALLENGE
+// 'Jonas is a 46-years old teacher'
+
+console.log(jonas.getSummary());
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// 45. Coding Challenge #3
+
+Let's go back to Mark and John comparing their BMIs! This time, let's use objects to
+implement the calculations! Remember: BMI = mass / height ** 2 = mass
+/ (height * height) (mass in kg and height in meter)
+Your tasks:
+1. For each of them, create an object with properties for their full name, mass, and
+height (Mark Miller and John Smith)
+2. Create a 'calcBMI' method on each object to calculate the BMI (the same
+method on both objects). Store the BMI value to a property, and also return it
+from the method
+3. Log to the console who has the higher BMI, together with the full name and the
+respective BMI. Example: "John's BMI (28.3) is higher than Mark's (23.9)!"
+Test data: Marks weights 7
+
+
+
+
+const markMiller = {
+  fullName: 'Mark Miller',
+  mass: 78,
+  height: 1.69,
+  calcBMI: function() {
+    this.BMI = this.mass / (this.height ** 2)
+    return this.BMI
+  }
+};
+
+const johnSmith = {
+  fullName: 'John Smith',
+  mass: 92,
+  height: 1.95,
+  calcBMI: function() {
+    this.BMI = this.mass / (this.height ** 2)
+    return this.BMI
+  }
+};
+
+console.log(`${markMiller.calcBMI() > johnSmith.calcBMI() ? 'Mark' : 'John'}'s BMI (${(markMiller.BMI > johnSmith.BMI ? markMiller.BMI : johnSmith.BMI).toFixed(1)}) is higher than  ${markMiller.BMI < johnSmith.BMI ? 'Mark' : 'John'}'s (${(markMiller.BMI < johnSmith.BMI ? markMiller.BMI : johnSmith.BMI).toFixed(1)})`)
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////7
+// 46. Iteration: The for Loop
+
+// for loop keeps running while condition is TRUE
+for(let rep = 1; rep <= 10; rep++) {
+  console.log('Lifting weights repetitions ' + rep)
+}
+
+*/
+
+/////////////////////////////////////////////////////////////////////////////////////////////////7
+// 47. Looping Arrays, Breaking and Continuing
+
+const jonas = [
+  'Jonas',
+  'Schmedmann',
+  2022 -1991,
+  'teacher',
+  ['Michael', 'Peter', 'Steven'],
+  true
+]
+
+const types = [];
+
+
+for(let i = 0; i < jonas.length; i++) {
+  // reading types jonas array
+  console.log(jonas[i], typeof jonas[i]);
+  // Filling types array
+  //types[i] = typeof jonas[1];
+  types.push(typeof jonas[i])
+}
+
+console.log(types)
+
+const years = [1991, 2007, 1969, 2020];
+const ages = [];
+
+for(let i=0; i < years.length; i++) {
+  ages.push(2022-years[i])
+}
+
+console.log(ages)
+
+// continue and break
+console.log('--- ONLY STRING ---');
+for(let i = 0; i < jonas.length; i++) {
+  if(typeof jonas[i] !== 'string') continue;
+  console.log(jonas[i], typeof jonas[i]);
+}
+
+
+console.log('--- BREAK WITH NUMBER ---');
+for(let i = 0; i < jonas.length; i++) {
+  if(typeof jonas[i] === 'number') break;
+  console.log(jonas[i], typeof jonas[i]);
+}
