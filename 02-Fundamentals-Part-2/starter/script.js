@@ -496,7 +496,7 @@ for (let exercise = 1; exercise < 4; exercise++) {
 
 let dice = Math.trunc(Math.random() * 6) + 1;
 
-while (dice !== 6) {
+while (dice !== 7) {
   console.log(`You rolled a ${dice}`);
   dice = Math.trunc(Math.random() * 6) + 1;
   if (dice === 6) console.log('Loop is about to end...');
