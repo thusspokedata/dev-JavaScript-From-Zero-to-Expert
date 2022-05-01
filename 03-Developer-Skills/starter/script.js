@@ -1,6 +1,6 @@
 // Remember, we're gonna use strict mode in all scripts now!
 'use strict';
-
+/*
 // const x = '23';
 // if (x === 23) console.log(23);
 
@@ -27,22 +27,22 @@
 
 const temperatures = [3, -2, -6, -1, 'error', 9, 13, 17, 15, 14, 9, 5];
 
-// const calcTempAmplitude = function (temps) {
-//   let max = temps[0];
-//   let min = temps[0];
-//   for (let i = 0; i < temps.length; i++) {
-//     const curTemp = temps[i];
-//     if (typeof curTemp !== 'number') continue;
+const calcTempAmplitude = function (temps) {
+  let max = temps[0];
+  let min = temps[0];
+  for (let i = 0; i < temps.length; i++) {
+    const curTemp = temps[i];
+    if (typeof curTemp !== 'number') continue;
 
-//     if (temps[i] > max) max = temps[i];
-//     if (temps[i] < min) min = temps[i];
-//   }
+    if (temps[i] > max) max = temps[i];
+    if (temps[i] < min) min = temps[i];
+  }
 
-//   console.log('the max is ' + max + ' and the min is ' + min);
-//   return max - min;
-// };
-// const amplitude = calcTempAmplitude(temperatures);
-// console.log('The amplitude is ' + amplitude + ' degrees');
+  console.log('the max is ' + max + ' and the min is ' + min);
+  return max - min;
+};
+const amplitude = calcTempAmplitude(temperatures);
+console.log('The amplitude is ' + amplitude + ' degrees');
 
 // PROBLEM 2:
 // Function should now receive 2 arrays of temps
@@ -72,3 +72,31 @@ const calcTempAmplitudeNew = function (t1, t2) {
 };
 const amplitudeNew = calcTempAmplitudeNew([3,5,1], [20, 13, 23]);
 console.log('The amplitude is ' + amplitudeNew + ' degrees');
+
+*/
+
+///////////////////////////////////////////////////////////////////////////////////////77
+// 61. Debugging with the Console and Breakpoints
+
+const measureKelvin = function() {
+  const measurement = {
+    type: 'temp',
+    unit: 'celsius',
+    // C) FIX
+    value: Number(prompt('Degrees celsius:')),
+  };
+
+  // B) FIND
+  // console.log(measurement);
+  console.table(measurement);
+
+  // console.log(measurement.value);
+  // console.warn(measurement.value);
+  // console.error(measurement.value);
+
+  const kelvin = measurement.value + 273;
+  return kelvin;
+};
+
+// A) Identify 
+console.log(measureKelvin());
