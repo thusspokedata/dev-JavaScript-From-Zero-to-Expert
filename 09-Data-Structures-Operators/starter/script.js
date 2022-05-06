@@ -1,4 +1,19 @@
 'use strict';
+const weekday = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+const openingHours = {
+  [weekday[3]]: {
+    open: 12,
+    close: 22,
+  },
+  [weekday[4]]: {
+    open: 11,
+    close: 23,
+  },
+  [`day-${2+4}`]: {
+    open: 0, // Open 24 hours
+    close: 24,
+  },
+};
 
 // Data needed for a later exercise
 const flights =
@@ -12,36 +27,50 @@ const restaurant = {
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
 
-  order: function(starterIndex, mainIndex) {
+  // ES6 enhance objects literals
+  openingHours,
+
+  // order: function (starterIndex, mainIndex) {
+  //   return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+  // },
+
+  order(starterIndex, mainIndex) {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
-
-  orderDelivery: function ({starterIndex = 1, mainIndex = 0, time = '20:00', address}) {
-    console.log(`Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`);
+  orderDelivery({ starterIndex = 1, mainIndex = 0, time = '20:00', address }) {
+    console.log(
+      `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+    );
+  },
+  // orderDelivery: function ({
+  //   starterIndex = 1,
+  //   mainIndex = 0,
+  //   time = '20:00',
+  //   address,
+  // }) {
+  //   console.log(
+  //     `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+  //   );
+  // },
+  orderPasta(ing1, ing2, ing3) {
+    console.log(
+      `Here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`
+    );
   },
 
-  openingHours: {
-    thu: {
-      open: 12,
-      close: 22,
-    },
-    fri: {
-      open: 11,
-      close: 23,
-    },
-    sat: {
-      open: 0, // Open 24 hours
-      close: 24,
-    },
-  },
-
-  orderPasta: function(ing1, ing2, ing3) {
-    console.log(`Here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`)
-  },
-  orderPizza: function(mainIngredient, ...otherIngredients) {
+  // orderPasta: function (ing1, ing2, ing3) {
+  //   console.log(
+  //     `Here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`
+  //   );
+  // },
+  // orderPizza: function (mainIngredient, ...otherIngredients) {
+  //   console.log(mainIngredient);
+  //   console.log(otherIngredients);
+  // },
+  orderPizza(mainIngredient, ...otherIngredients) {
     console.log(mainIngredient);
     console.log(otherIngredients);
-  }
+  },
 };
 
 /*
@@ -307,4 +336,108 @@ rest2.owner &&= '<ANONYMOUS>';
 console.log(rest1);
 console.log(rest2);
 
-*/ 
+
+////////////////////////////////////////////////////////////////////////////
+// 110. Coding Challenge #1
+
+const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borussia Dortmont',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowsky',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witzel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowsky', 'Gnarby', 'Lewandowsky', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+
+// 1)
+const [players1, players2] = game.players;
+console.log(players1);
+
+// 2)
+const [gk, ...fieldPlayers] = players1;
+console.log(gk, fieldPlayers);
+
+// 3)
+const allPlayers = [...players1, ...players2];
+console.log(allPlayers);
+
+// 4)
+const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
+console.log(players1);
+
+// 5
+// ##############################################
+// ########### muy buena!!! #####################
+// ##############################################
+const {odds: {team1, x: draw, team2}} = game;
+console.log(team1, draw, team2);
+
+// 6
+const printGoals = function (...players) {
+  console.log(players)
+  console.log(`${players.length} goals were scored`);
+};
+
+// printGoals('Lewandowsky', 'Gnarby', 'Lewandowsky', 'Hummels');
+printGoals(...game.scored)
+
+// 7
+// 5
+// ##############################################
+// ########### muy buena!!! #####################
+// ##############################################
+team1 < team2 && console.log('Team1 is more likely to win');
+team2 < team1 && console.log('Team2 is more likely to win');
+
+*/
+////////////////////////////////////////////////////////////////////////////////
+// 111. Looping Arrays: The for-of Loop
+
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+
+//for (const item of menu) console.log(item);
+
+for (const item of menu.entries()) {
+  console.log(`${item[0] + 1}: ${item[1]}`);
+}
+
+for (const [i, el] of menu.entries()) {
+  console.log(`${i + 1}: ${el}`);
+}
+
+// console.log(...menu.entries());
+
+//////////////////////////////////////////////////////////////////////////
+// 112. Enhanced Object Literals
