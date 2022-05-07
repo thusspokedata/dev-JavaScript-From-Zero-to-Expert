@@ -12,6 +12,7 @@
 + [109. Logical Assignment Operators](#section7)
 + [110. Coding Challenge #1](#section8)
 + [111. Looping Arrays: The for-of Loop](#section9)
++ [112. Enhanced Object Literals](#section10)
   
 <hr>
 
