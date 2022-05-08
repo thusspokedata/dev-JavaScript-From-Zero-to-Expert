@@ -336,7 +336,6 @@ rest2.owner &&= '<ANONYMOUS>';
 console.log(rest1);
 console.log(rest2);
 
-
 ////////////////////////////////////////////////////////////////////////////
 // 110. Coding Challenge #1
 
@@ -401,17 +400,19 @@ console.log(players1);
 // ##############################################
 // ########### muy buena!!! #####################
 // ##############################################
-const {odds: {team1, x: draw, team2}} = game;
+const {
+  odds: { team1, x: draw, team2 },
+} = game;
 console.log(team1, draw, team2);
 
 // 6
 const printGoals = function (...players) {
-  console.log(players)
+  console.log(players);
   console.log(`${players.length} goals were scored`);
 };
 
 // printGoals('Lewandowsky', 'Gnarby', 'Lewandowsky', 'Hummels');
-printGoals(...game.scored)
+printGoals(...game.scored);
 
 // 7
 // 5
@@ -420,6 +421,7 @@ printGoals(...game.scored)
 // ##############################################
 team1 < team2 && console.log('Team1 is more likely to win');
 team2 < team1 && console.log('Team2 is more likely to win');
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -438,7 +440,7 @@ for (const [i, el] of menu.entries()) {
 }
 
 // console.log(...menu.entries());
-*/
+
 //////////////////////////////////////////////////////////////////////////
 // 112. Enhanced Object Literals
 
@@ -512,3 +514,163 @@ for (const x of entries) {
 for (const [key, {open, close}] of entries) {
   console.log(`On ${key} we open at ${open} and close at ${close}`)
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+// 115. Coding Challenge #2
+
+// 1)
+let byorder = 0;
+for (const goalmaker of game.scored) {
+  byorder++;
+  console.log(`Goal ${byorder}: ${goalmaker}`);
+}
+
+console.log('----------this one is cooler--------------------------------');
+for (const [i, player] of game.scored.entries())
+  console.log(`Goal ${i + 1}: ${player}`);
+
+// 2)
+
+let avg = 0;
+let i = 0;
+
+for (const odd of Object.values(game.odds)) {
+  i++;
+  avg += odd;
+  console.log(avg / i);
+}
+
+console.log('----------another way--------------------------------');
+
+let average = 0;
+for (const odd of Object.values(game.odds)) average += odd;
+average /= Object.values(game.odds).length;
+console.log(average);
+
+// 3)
+console.log('----------number 3--------------------------------');
+for (const [team, odd] of Object.entries(game.odds)) {
+  if (team === 'team1') {
+    console.log(`Odds of Victory Bayern Munich: ${odd}`);
+  } else if (team === 'team2') {
+    console.log(`Odds of Victory Borrussia Dortmont: ${odd}`);
+  } else {
+    console.log(`Odds of draw: ${odd}`);
+  }
+}
+
+// ##############################################
+// ########### muy buena!!! #####################
+// ##############################################
+
+console.log('----------a better way number 3-----------------------');
+for (const [team, odd] of Object.entries(game.odds)) {
+  const teamStr = team === 'x' ? 'draw' : ` victory ${game[team]}`;
+  console.log(`Odds of ${teamStr}: ${odd}`);
+}
+
+// I still have to do this one
+// . Bonus: Create an object called 'scorers' which contains the names of the
+// players who scored as properties, and the number of goals as the value. In this
+// game, it will look like this:
+// {
+// Gnarby: 1,
+// Hummels: 1,
+// Lewandowski: 2
+// }
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+// 116. Sets
+
+const ordersSet = new Set([
+  'Pasta',
+  'Pizza',
+  'Pizza',
+  'Risotto',
+  'Pasta',
+  'Pizza',
+]);
+
+console.log(ordersSet);
+
+// Order in Set is irrelevant and all the values are unique. In Sets there is not indexes 
+
+console.log(new Set('Jonas'));
+console.log(ordersSet.size);
+console.log(ordersSet.has('Pizza'));
+console.log(ordersSet.has('Bread'));
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread');
+ordersSet.delete('Risotto');
+// ordersSet.clear();
+console.log(ordersSet);
+
+for (const order of ordersSet) console.log(order);
+
+// Example
+const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+
+const staffUnique = new Set(staff);
+console.log(staff);
+console.log(staffUnique);
+// if I want to pass a Set to an Array:
+const staffUniqueArray = [...new Set(staff)];
+console.log(staffUniqueArray);
+
+console.log(
+  new Set(['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter']).size
+);
+console.log(new Set(staff).size);
+console.log(new Set('josedesanmartin').size);
+
+*/
+////////////////////////////////////////////////////////////////////////////////////////
+// 117. Maps: Fundamentals
+
+// The big difference between objects and maps is that in maps, the keys can have any type and this can be huge. In Objects, the keys are basically always strings.
+// But in maps, we can have any type of key. It could even be objects, or arrys, or other maps.
+
+const rest = new Map();
+rest.set('name', 'Classico Italiano');
+rest.set(1, 'Firenze, Italy');
+rest.set(2, 'Lisbon, Portugal');
+
+rest
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are open :D')
+  .set(false, 'We are close :D');
+
+console.log(rest);
+console.log(rest.get('name'));
+console.log(rest.get(true));
+console.log(rest.get(1));
+
+
+console.log('-----------------------------------------------------');
+const time = 21;
+console.log(rest.get(time > rest.get('open') && time < rest.get('close')));
+
+console.log(rest.has('categories'));
+rest.delete(2);
+console.log(rest);
+console.log(rest.size);
+// rest.clear();
+console.log(rest);
+/*
+// const gameEvents = new Map([
+//   [17, 'Goal'],
+//   [36, 'Subtitution'],
+//   [47, 'Goal'],
+//   [61, 'Substitution'],
+//   [64, 'yellow card'],
+//   [69, 'Red Card'],
+//   [70, 'Substitution'],
+//   [72, 'Substitution'],
+//   [76, 'Goal'],
+//   [80, 'Goal'],
+//   [92, 'yellow card'],
+// ]) */
