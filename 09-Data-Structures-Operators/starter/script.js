@@ -625,7 +625,7 @@ console.log(
 console.log(new Set(staff).size);
 console.log(new Set('josedesanmartin').size);
 
-*/
+
 ////////////////////////////////////////////////////////////////////////////////////////
 // 117. Maps: Fundamentals
 
@@ -649,28 +649,129 @@ console.log(rest.get('name'));
 console.log(rest.get(true));
 console.log(rest.get(1));
 
-
 console.log('-----------------------------------------------------');
 const time = 21;
 console.log(rest.get(time > rest.get('open') && time < rest.get('close')));
 
 console.log(rest.has('categories'));
 rest.delete(2);
+// rest.clear();
+rest.set([1, 2], 'Test');
+rest.set(document.querySelector('h1'), 'Heading');
 console.log(rest);
 console.log(rest.size);
-// rest.clear();
 console.log(rest);
-/*
-// const gameEvents = new Map([
-//   [17, 'Goal'],
-//   [36, 'Subtitution'],
-//   [47, 'Goal'],
-//   [61, 'Substitution'],
-//   [64, 'yellow card'],
-//   [69, 'Red Card'],
-//   [70, 'Substitution'],
-//   [72, 'Substitution'],
-//   [76, 'Goal'],
-//   [80, 'Goal'],
-//   [92, 'yellow card'],
-// ]) */
+
+// this two arrays are actually not the same object.
+// Even though I wrote them in the same way and so, they have the same elements they are not the same object in the heap.
+// this is not goint to work
+console.log(rest.get([1, 2]));
+
+// to make it work I have to do like this, because it refer to the same place in memory
+const arr = [1, 2];
+rest.set(arr, 'Test');
+console.log(rest.get(arr));
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// 118. Maps: Iteration
+
+const question = new Map([
+  ['question', 'What is the best programming language in the world?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'Javascript'],
+  ['correct', 3],
+  [true, 'Correct, you are awesome'],
+  [false, 'Try again!'],
+]);
+
+console.log(question);
+console.log(Object.entries(openingHours)); // this structure that results from Object.entries  is exacly the same to the one that I use to create a Map
+// that means that there is an easy way to convert from objects to maps.
+//convert object to map
+const hoursMap = new Map(Object.entries(openingHours));
+console.log(hoursMap);
+
+console.log('-----------------------------------------------------');
+console.log(question.get('question'));
+for (const [key, value] of question) {
+  if(typeof key=== 'number') console.log(`Answer ${key}: ${value}`)
+}
+const answer = Number(prompt('Your answer'));
+
+console.log('-----------------------------------------------------');
+console.log(answer);
+
+if (answer === question.get('correct')) {
+  console.log(question.get(true));
+} else {
+  console.log(question.get(false));
+}
+
+console.log('--------------------another way------------------------');
+question.get('correct') === answer ? console.log(question.get(true)) : console.log(question.get(false));
+
+
+// ##############################################
+// ########### muy buena!!! #####################
+// ##############################################
+
+console.log('--------------------better way------------------------');
+console.log(question.get(question.get('correct') === answer));
+
+// Convert map to array
+console.log(...question);
+console.log(question.entries());
+console.log('--------------------------------------------');
+console.log([...question.keys()]);
+console.log([...question.values()]);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// 119. Summary: Which Data Structure to Use?
+,
+*/
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// 120. Coding Challenge #3
+
+const gameEvents = new Map([
+  [17, 'Goal'],
+  [36, 'Subtitution'],
+  [47, 'Goal'],
+  [61, 'Substitution'],
+  [64, 'yellow card'],
+  [69, 'Red Card'],
+  [70, 'Substitution'],
+  [72, 'Substitution'],
+  [76, 'Goal'],
+  [80, 'Goal'],
+  [92, 'yellow card'],
+])
+
+// 1)
+
+const events = [...new Set(gameEvents.values())];
+console.log(events);
+
+// 2)
+gameEvents.delete(64);
+console.log(gameEvents);
+
+// 3)
+
+// console.log(`An event happened, on average, every ${90 / gameEvents.size} minutes`)
+
+const time = [...gameEvents.keys()].pop();
+// console.log(time);
+
+console.log(`An event happened, on average, every ${time / gameEvents.size} minutes`)
+
+// 4)
+console.log('--------------------my way------------------------');
+for (const [time, event] of gameEvents) 
+console.log(time <= 45 ?  `[FIRST HALF] ${time}: ${event}` :  `[SECOND HALF] ${time}: ${event}`);
+
+console.log('--------------------another way------------------------');
+for (const [time, event] of gameEvents) {
+  const half = time <= 45 ? 'FIRST' : 'SECOND';
+  console.log(`[${half} HALF] ${time}: ${event}`);
+} 
