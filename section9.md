@@ -13,6 +13,16 @@
 + [110. Coding Challenge #1](#section8)
 + [111. Looping Arrays: The for-of Loop](#section9)
 + [112. Enhanced Object Literals](#section10)
++ [113. Optional Chaining (?.)](#section11)
++ [114. Looping Objects: Object Keys, Values, and Entries](#section12)
++ [115. Coding Challenge #2](#section13)
++ [116. Sets](#section14)
++ [117. Maps: Fundamentals](#section15)
++ [118. Maps: Iteration](#section16)
++ [120. Coding Challenge #3](#section17)
++ [121. Working With Strings - Part 1](#section18)
++ [122. Working With Strings - Part 2](#section19)
++ [123. Working With Strings - Part 3](#section20)
   
 <hr>
 
@@ -651,3 +661,431 @@ for (const [key, {open, close}] of entries) {
 }
 
 
+```
+
+<a id="section13"></a>
+<h2>115. Coding Challenge #2</h2> 
+
+[back to Index](#section0)
+
+```js 
+// 1)
+let byorder = 0;
+for (const goalmaker of game.scored) {
+  byorder++;
+  console.log(`Goal ${byorder}: ${goalmaker}`);
+}
+
+console.log('----------this one is cooler--------------------------------');
+for (const [i, player] of game.scored.entries())
+  console.log(`Goal ${i + 1}: ${player}`);
+
+// 2)
+
+let avg = 0;
+let i = 0;
+
+for (const odd of Object.values(game.odds)) {
+  i++;
+  avg += odd;
+  console.log(avg / i);
+}
+
+console.log('----------another way--------------------------------');
+
+let average = 0;
+for (const odd of Object.values(game.odds)) average += odd;
+average /= Object.values(game.odds).length;
+console.log(average);
+
+// 3)
+console.log('----------number 3--------------------------------');
+for (const [team, odd] of Object.entries(game.odds)) {
+  if (team === 'team1') {
+    console.log(`Odds of Victory Bayern Munich: ${odd}`);
+  } else if (team === 'team2') {
+    console.log(`Odds of Victory Borrussia Dortmont: ${odd}`);
+  } else {
+    console.log(`Odds of draw: ${odd}`);
+  }
+}
+
+// ##############################################
+// ########### muy buena!!! #####################
+// ##############################################
+
+console.log('----------a better way number 3-----------------------');
+for (const [team, odd] of Object.entries(game.odds)) {
+  const teamStr = team === 'x' ? 'draw' : ` victory ${game[team]}`;
+  console.log(`Odds of ${teamStr}: ${odd}`);
+}
+
+// I still have to do this one
+// . Bonus: Create an object called 'scorers' which contains the names of the
+// players who scored as properties, and the number of goals as the value. In this
+// game, it will look like this:
+// {
+// Gnarby: 1,
+// Hummels: 1,
+// Lewandowski: 2
+// }
+
+```
+
+<a id="section14"></a>
+<h2>116. Sets</h2> 
+
+[back to Index](#section0)
+
+```js 
+const ordersSet = new Set([
+  'Pasta',
+  'Pizza',
+  'Pizza',
+  'Risotto',
+  'Pasta',
+  'Pizza',
+]);
+
+console.log(ordersSet);
+
+// Order in Set is irrelevant and all the values are unique. In Sets there is not indexes 
+
+console.log(new Set('Jonas'));
+console.log(ordersSet.size);
+console.log(ordersSet.has('Pizza'));
+console.log(ordersSet.has('Bread'));
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread');
+ordersSet.delete('Risotto');
+// ordersSet.clear();
+console.log(ordersSet);
+
+for (const order of ordersSet) console.log(order);
+
+// Example
+const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+
+const staffUnique = new Set(staff);
+console.log(staff);
+console.log(staffUnique);
+// if I want to pass a Set to an Array:
+const staffUniqueArray = [...new Set(staff)];
+console.log(staffUniqueArray);
+
+console.log(
+  new Set(['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter']).size
+);
+console.log(new Set(staff).size);
+console.log(new Set('josedesanmartin').size);
+```
+
+<a id="section15"></a>
+<h2>117. Maps: Fundamentals</h2> 
+
+[back to Index](#section0)
+
+```js 
+
+// The big difference between objects and maps is that in maps, the keys can have any type and this can be huge. In Objects, the keys are basically always strings.
+// But in maps, we can have any type of key. It could even be objects, or arrys, or other maps.
+
+const rest = new Map();
+rest.set('name', 'Classico Italiano');
+rest.set(1, 'Firenze, Italy');
+rest.set(2, 'Lisbon, Portugal');
+
+rest
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are open :D')
+  .set(false, 'We are close :D');
+
+console.log(rest);
+console.log(rest.get('name'));
+console.log(rest.get(true));
+console.log(rest.get(1));
+
+console.log('-----------------------------------------------------');
+const time = 21;
+console.log(rest.get(time > rest.get('open') && time < rest.get('close')));
+
+console.log(rest.has('categories'));
+rest.delete(2);
+// rest.clear();
+rest.set([1, 2], 'Test');
+rest.set(document.querySelector('h1'), 'Heading');
+console.log(rest);
+console.log(rest.size);
+console.log(rest);
+
+// this two arrays are actually not the same object.
+// Even though I wrote them in the same way and so, they have the same elements they are not the same object in the heap.
+// this is not goint to work
+console.log(rest.get([1, 2]));
+
+// to make it work I have to do like this, because it refer to the same place in memory
+const arr = [1, 2];
+rest.set(arr, 'Test');
+console.log(rest.get(arr));
+
+```
+
+<a id="section16"></a>
+<h2>118. Maps: Iteration</h2> 
+
+[back to Index](#section0)
+
+```js 
+
+const question = new Map([
+  ['question', 'What is the best programming language in the world?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'Javascript'],
+  ['correct', 3],
+  [true, 'Correct, you are awesome'],
+  [false, 'Try again!'],
+]);
+
+console.log(question);
+console.log(Object.entries(openingHours)); // this structure that results from Object.entries  is exacly the same to the one that I use to create a Map
+// that means that there is an easy way to convert from objects to maps.
+//convert object to map
+const hoursMap = new Map(Object.entries(openingHours));
+console.log(hoursMap);
+
+console.log('-----------------------------------------------------');
+console.log(question.get('question'));
+for (const [key, value] of question) {
+  if(typeof key=== 'number') console.log(`Answer ${key}: ${value}`)
+}
+const answer = Number(prompt('Your answer'));
+
+console.log('-----------------------------------------------------');
+console.log(answer);
+
+if (answer === question.get('correct')) {
+  console.log(question.get(true));
+} else {
+  console.log(question.get(false));
+}
+
+console.log('--------------------another way------------------------');
+question.get('correct') === answer ? console.log(question.get(true)) : console.log(question.get(false));
+
+
+// ##############################################
+// ########### muy buena!!! #####################
+// ##############################################
+
+console.log('--------------------better way------------------------');
+console.log(question.get(question.get('correct') === answer));
+
+// Convert map to array
+console.log(...question);
+console.log(question.entries());
+console.log('--------------------------------------------');
+console.log([...question.keys()]);
+console.log([...question.values()]);
+
+
+```
+
+<a id="section17"></a>
+<h2>120. Coding Challenge #3</h2> 
+
+[back to Index](#section0)
+
+```js 
+
+const gameEvents = new Map([
+  [17, 'Goal'],
+  [36, 'Subtitution'],
+  [47, 'Goal'],
+  [61, 'Substitution'],
+  [64, 'yellow card'],
+  [69, 'Red Card'],
+  [70, 'Substitution'],
+  [72, 'Substitution'],
+  [76, 'Goal'],
+  [80, 'Goal'],
+  [92, 'yellow card'],
+])
+
+// 1)
+
+const events = [...new Set(gameEvents.values())];
+console.log(events);
+
+// 2)
+gameEvents.delete(64);
+console.log(gameEvents);
+
+// 3)
+
+// console.log(`An event happened, on average, every ${90 / gameEvents.size} minutes`)
+
+const time = [...gameEvents.keys()].pop();
+// console.log(time);
+
+console.log(`An event happened, on average, every ${time / gameEvents.size} minutes`)
+
+// 4)
+console.log('--------------------my way------------------------');
+for (const [time, event] of gameEvents) 
+console.log(time <= 45 ?  `[FIRST HALF] ${time}: ${event}` :  `[SECOND HALF] ${time}: ${event}`);
+
+console.log('--------------------another way------------------------');
+for (const [time, event] of gameEvents) {
+  const half = time <= 45 ? 'FIRST' : 'SECOND';
+  console.log(`[${half} HALF] ${time}: ${event}`);
+} 
+
+```
+
+<a id="section18"></a>
+<h2>121. Working With Strings - Part 1</h2> 
+
+[back to Index](#section0)
+
+```js 
+
+const airline = 'TAP Air Portugal';
+const plane = 'A320';
+console.log(plane[0]);
+console.log('B737'[0]);
+
+console.log(airline.length);
+console.log('B737'.length);
+
+console.log(airline.indexOf('r'));
+console.log(airline.lastIndexOf('r')); // the posicion number of 'r'
+console.log(airline.lastIndexOf('Portugal'));
+console.log(airline.lastIndexOf('portugal'));
+
+console.log(airline.slice(4));
+console.log(airline.slice(4, 7));
+console.log(airline.slice(0, airline.indexOf(' ')));
+console.log(airline.slice(airline.lastIndexOf(' ') + 1));
+
+console.log(airline.slice(-2));
+console.log(airline.slice(1, -4));
+
+const checkMiddleSeat = function(seat) {
+  const s = seat.slice(-1);
+  if(s === 'B' || s === 'E')
+  console.log('You got the middle seat');
+  else console.log('You got lucky');
+}
+
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');
+
+console.log(new String('jonas'));
+console.log(typeof new String('jonas'));
+console.log(typeof new String('jonas').slice(1));
+
+```
+
+<a id="section19"></a>
+<h2>122. Working With Strings - Part 2</h2> 
+
+[back to Index](#section0)
+
+```js 
+
+const airline = 'TAP Air Portugal';
+
+console.log(airline.toLowerCase());
+console.log(airline.toUpperCase());
+console.log('jose de san martin'.toUpperCase());
+
+// fix capitalization in name
+const passenger = 'jOnAs';
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+console.log(passengerCorrect);
+
+// Check Emails
+const email = 'hello@jonas.io';
+const loginEmail = ' Hello@Jonas.Io \n';
+const trimmedEmail = loginEmail.trim();
+console.log(trimmedEmail);
+
+const normalizedEmail = loginEmail.toLowerCase().trim();
+console.log(normalizedEmail);
+console.log(normalizedEmail === email);
+
+// replacing
+const priceGB = '288,97§';
+const priceUS = priceGB.replace('§', '$').replace(',', '.');
+console.log(priceUS);
+
+const announcement = 'All passengers come to boarding door 23. Boarding door 23!';
+
+console.log(announcement.replace('door', 'gate'));
+console.log(announcement.replaceAll('door', 'gate'));
+
+console.log('--------------------using REGEX---------------------');
+// using Regex
+console.log(announcement.replace(/door/g, 'gate'));
+console.log('--------------------Booleans------------------------');
+// Booleans
+const plane = 'Airbus A320neo';
+console.log(plane.includes('A320'));
+console.log(plane.includes('Boeing'));
+console.log(plane.startsWith('Air'));
+
+if(plane.startsWith('Airbus') && plane.endsWith('neo')) {
+  console.log('Part of the new Airbus family');
+}
+
+const checkBaggage = function(items){
+  const baggage = items.toLowerCase();
+  if (baggage.includes('knife') || baggage.includes('gun')) {
+    console.log('You are NOT allowed on board');
+  } else {
+    console.log('Welcome aboard!');
+  }
+}
+
+checkBaggage('I have a laptop, some Food and a pocker Knife');
+checkBaggage('Socke and camera');
+checkBaggage('Got some snacks and a gun for protection')
+
+```
+
+<a id="section20"></a>
+<h2>123. Working With Strings - Part 3</h2> 
+
+[back to Index](#section0)
+
+```js 
+
+console.log('-------------split and join----------------------');
+
+console.log('a+very+nice+string'.split('+'));
+console.log('Jose de San Martin'.split(' '));
+
+const [firstName, lastName] = 'Jose Pedrin'.split(' ');
+console.log(firstName);
+
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ')
+console.log(newName);
+
+console.log('----------------------------------');
+const capitalizeName = function(name) {
+  const names = name.split(' ');
+  const namesUpper = [];
+  for (const n of names) {
+    namesUpper.push(n[0].toUpperCase() + n.slice(1));
+  }
+  console.log(namesUpper.join(' '));
+}
+
+capitalizeName('jessica and smith davis');
+capitalizeName('jonas schmedtmann')
