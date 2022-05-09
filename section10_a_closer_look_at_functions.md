@@ -4,6 +4,8 @@
 <h2>Table of contents</h2>
 
 + [128. Default Parameters](#section1)
++ [129. How Passing Arguments Works: Value vs. Reference](#section2)
++ [130. First-Class and Higher-Order Functions](#section3)
 
 <a id='section1'></a>
 <h2>128. Default Parameters</h2> 
