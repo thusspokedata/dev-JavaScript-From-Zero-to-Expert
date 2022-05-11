@@ -23,6 +23,7 @@
 + [121. Working With Strings - Part 1](#section18)
 + [122. Working With Strings - Part 2](#section19)
 + [123. Working With Strings - Part 3](#section20)
++ [124. Coding Challenge #4](#section21)
   
 <hr>
 
@@ -1089,3 +1090,80 @@ const capitalizeName = function(name) {
 
 capitalizeName('jessica and smith davis');
 capitalizeName('jonas schmedtmann')
+
+// Padding
+const message = 'Go to gate 23!'
+console.log(message.padStart(20, '+').padEnd(30, '+'));
+console.log('Jonas'.padStart(20, '+').padEnd(30, '+'));
+
+// ##############################################
+// ########### muy buena!!! #####################
+// ##############################################
+const masCreditCard = function(number) {
+  const str = number + '';
+  const last = str.slice(-4);
+  return last.padStart(str.length, '*')
+}
+
+console.log(masCreditCard(1304865465));
+console.log(masCreditCard(15151513135131304865465));
+console.log(masCreditCard('15151513135131304865465'));
+
+// Repeat
+const message2 = 'Bad weather... All Departures Delayed...\n';
+console.log(message2.repeat(5))
+
+const planesInLine = function(n) {
+  console.log(`There are ${n} planes in line ${'🛫'.repeat(n)}`);
+}
+
+planesInLine(5);
+planesInLine(3);
+planesInLine(12);
+
+```
+<a id="section21"></a>
+<h2>124. Coding Challenge #4</h2> 
+
+[back to Index](#section0)
+
+
+```js
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+
+console.log('--------------my solution------------------------')
+document.querySelector('button').addEventListener('click', function () {
+  let text = document.querySelector('textarea').value;
+  let words = text.split('\n');
+  let emoji = '✅';  
+  for (const [i, word] of words.entries()) {
+    let camelCase =
+      (word.slice(0, word.indexOf('_')).toLowerCase() +
+      word.slice(word.indexOf('_') + 1, word.indexOf('_') + 2).toUpperCase() +
+      word.slice(word.indexOf('_') + 2).toLowerCase()).trim();
+    console.log(`${camelCase.padEnd(20)}${emoji.repeat(i+1)}`);
+  }
+});
+
+console.log('----------- solution Jonas------------------')
+document.querySelector('button').addEventListener('click', function () {
+  let text = document.querySelector('textarea').value;
+  const rows = text.split('\n');
+  for (const [i, row] of rows.entries()) {
+    const [first, second] = row.toLowerCase().trim().split('_');
+    const output = `${first}${second.replace(second[0],second[0].toUpperCase())}`;
+    console.log(`${output.padEnd(20)}${'✅'.repeat(i+1)}`)
+  }
+});
+
+
+// underscore_case
+//  first_name
+// Some_Variable
+//  calculate_AGE
+// delayed_departure
+
+``` 
