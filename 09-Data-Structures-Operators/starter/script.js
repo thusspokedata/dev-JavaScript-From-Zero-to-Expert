@@ -880,7 +880,7 @@ const checkBaggage = function(items){
 checkBaggage('I have a laptop, some Food and a pocker Knife');
 checkBaggage('Socke and camera');
 checkBaggage('Got some snacks and a gun for protection')
-*/
+
 ///////////////////////////////////////////////////////////////////////////////////
 // 123. Working With Strings - Part 3
 
@@ -939,3 +939,46 @@ const planesInLine = function(n) {
 planesInLine(5);
 planesInLine(3);
 planesInLine(12);
+
+
+
+///////////////////////////////////////////////////////////////////////////////////
+// 124. Coding Challenge #4
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+
+console.log('--------------my solution------------------------')
+document.querySelector('button').addEventListener('click', function () {
+  let text = document.querySelector('textarea').value;
+  let words = text.split('\n');
+  let emoji = '✅';  
+  for (const [i, word] of words.entries()) {
+    let camelCase =
+      (word.slice(0, word.indexOf('_')).toLowerCase() +
+      word.slice(word.indexOf('_') + 1, word.indexOf('_') + 2).toUpperCase() +
+      word.slice(word.indexOf('_') + 2).toLowerCase()).trim();
+    console.log(`${camelCase.padEnd(20)}${emoji.repeat(i+1)}`);
+  }
+});
+
+console.log('----------- solution Jonas------------------')
+document.querySelector('button').addEventListener('click', function () {
+  let text = document.querySelector('textarea').value;
+  const rows = text.split('\n');
+  for (const [i, row] of rows.entries()) {
+    const [first, second] = row.toLowerCase().trim().split('_');
+    const output = `${first}${second.replace(second[0],second[0].toUpperCase())}`;
+    console.log(`${output.padEnd(20)}${'✅'.repeat(i+1)}`)
+  }
+});
+
+
+// underscore_case
+//  first_name
+// Some_Variable
+//  calculate_AGE
+// delayed_departure
+
+*/
