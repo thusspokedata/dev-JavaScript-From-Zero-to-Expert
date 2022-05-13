@@ -122,7 +122,7 @@ console.log(arr.at(-2)) // 11
 console.log('Jonas'.at(0)); // J
 console.log('Jonas'.at(-1)); // s
 
-*/
+
 //////////////////////////////////////////////////////////////////////////
 // 144. Looping Arrays: forEach
 
@@ -225,3 +225,84 @@ displayMovements(account1.movements);
 
 /////////////////////////////////////////////////////////////////////
 // 148. Coding Challenge #1
+
+let juliaData1 = [3, 5, 2, 12, 7];
+let kateData1 = [4, 1, 15, 8, 3];
+
+let juliaData2 = [9, 16, 6, 8, 3];
+let kateData2 = [10, 5, 6, 1, 4];
+
+let juliaKateData = [];
+
+const checkDogs = function (dogsJulia, dogsKate) {
+  const juliaDataCorrected = dogsJulia.slice(1, -2);
+  juliaKateData = juliaDataCorrected.concat(dogsKate);
+  console.log(juliaKateData);
+};
+checkDogs(juliaData1, kateData1);
+
+// const checkDogs2 = function (dogsJulia, dogsKate) {
+//   juliaData1 = dogsJulia.slice(1, -2);
+//   let juliaKateData1 = [...juliaData1, ...dogsKate];
+//   console.log(juliaKateData1);
+// };
+// juliaData1 = [3, 5, 2, 12, 7];
+// checkDogs2(juliaData1, kateData1);
+juliaKateData.forEach(function (age, i) {
+  // the order is important: the first element is the current element, the second the current index and the third one always the entire array
+  if (age >= 3) {
+    console.log(`Dog number ${i + 1} is a dog and is ${age} years old`);
+  } else {
+    console.log(`Dog number ${i + 1} is still a puppy 🐶`); // abs = absolute
+  }
+});
+*/
+/////////////////////////////////////////////////////////////////
+// 149. Data Transformations: map, filter, reduce
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const eurToUsd = 1.1;
+
+// here in the map method, we use a function to solve this problem of creating a new array.
+// this is more in line with functional programming.
+const movementsUSD = movements.map(function (mov) {
+  return Math.round(mov * eurToUsd); // [220, 495, -440, 3300, -715, -143, 77, 1430]
+  // return 23; // [23, 23, 23, 23, 23, 23, 23, 23]
+});
+
+console.log(movements);
+console.log(movementsUSD);
+
+// while here we simply loop over one array and then manually create a new one.
+const movementsUSDfor = [];
+for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
+
+console.log(movementsUSDfor);
+
+// ############################################################
+// ########### ARRAY FUNTION !!!!! ############################
+// ############################################################
+console.log('---------ARRAY FUNTION--------');
+const movementsUSDarray = movements.map(mov => Math.round(mov * eurToUsd));
+console.log(movementsUSDarray);
+
+const movementsDescriptions = movements.map((mov, i, arr) => {
+  if (mov > 0) {
+    return `Movement ${i + 1}: You deposited ${mov}`;
+  } else {
+    return `Movement ${i + 1}: You withdraw ${Math.abs(mov)}`; // abs = absolute
+  }
+});
+console.log(movementsDescriptions);
+
+// ############################################################
+// ########### ARRAY FUNTION !!!!! ############################
+// ############################################################
+const movementsDescriptionsArray = movements.map(
+  (mov, i) =>
+    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+      mov
+    )}`
+);
+console.log(movementsDescriptionsArray);
