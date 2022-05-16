@@ -199,7 +199,7 @@ correnciesUnique.forEach(function (value, key, map) {
 
 /////////////////////////////////////////////////////////////////////
 // 146. PROJECT: "Bankist" App
-
+*/
 /////////////////////////////////////////////////////////////////////
 // 147. Creating DOM Elements
 
@@ -221,8 +221,33 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
-// console.log(containerMovements.innerHTML);
+//////////////////////////////////////////////////////////////////////
+// 151. Computing Usernames
 
+
+const calcDisplayBalance = function(movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} EUR`
+}
+
+calcDisplayBalance(account1.movements)
+
+const createUsernames = function(accs) {
+  accs.forEach(function(acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+      });
+};
+
+createUsernames(accounts);
+console.log(accounts)
+
+
+// console.log(containerMovements.innerHTML);
+/*
 /////////////////////////////////////////////////////////////////////
 // 148. Coding Challenge #1
 
@@ -256,9 +281,12 @@ juliaKateData.forEach(function (age, i) {
     console.log(`Dog number ${i + 1} is still a puppy 🐶`); // abs = absolute
   }
 });
-*/
+
 /////////////////////////////////////////////////////////////////
 // 149. Data Transformations: map, filter, reduce
+
+/////////////////////////////////////////////////////////////////
+// 150. Data map method
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
@@ -306,3 +334,123 @@ const movementsDescriptionsArray = movements.map(
     )}`
 );
 console.log(movementsDescriptionsArray);
+
+*/
+
+
+
+
+//////////////////////////////////////////////////////////////////////
+// 152. The filter Method
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+
+const deposits = movements.filter(function(mov){
+  return mov > 0;
+})
+
+console.log(movements);
+console.log(deposits);
+
+const depositsFor = [];
+for (const  mov of movements) if  (mov > 0) depositsFor.push(mov);
+
+console.log(depositsFor);
+
+const withdraws = movements.filter(mov => mov < 0);
+
+
+
+
+
+
+
+
+// accumulator -> SNOWBALL
+// const balance = movements.reduce(function(acc, cur, i, arr){
+//   console.log(`Iteration number ${i}: ${acc}`)
+//   return acc + cur;
+// }, 0); // 0 is the initial value of the accumulator
+
+//#############################################################
+//############ ARRAY IS BEAUTIFUL!!! ##########################
+//#############################################################
+
+const balance = movements.reduce((acc, cur) => acc + cur, 0);
+
+
+console.log(balance);
+
+let balance2 = 0;
+for (const mov of movements) balance2 += mov;
+console.log(balance2)
+
+// Maximun Value
+const max = movements.reduce((acc, mov) => acc > mov ? acc : mov, movements[0])
+
+console.log(`resultado es ${max}`)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//############## Ironhack ###########################
+// const matrix = [
+//   [
+//     { product: "MacBook", price: 1019, category: 'tech'},
+//     { product: "Cheerios", price: 5, category: 'food'},
+//   ],
+
+//   [
+//     { product: "Snickers", price: 1.5 , category: 'food'},
+//     { product: "Air Pods", price: 129, category: 'tech'},
+//   ],
+// ]
+
+// function sortProducts (matrix) {
+//   var tech = [];
+//   var food = [];
+//   var result = {tech: [], food: []}
+//   for (const  mat of matrix) {
+//     for (const m of mat) {
+//       m.category === 'tech' ? result.tech.push(m) : result.food.push(m);    
+//     }
+
+//   return result
+//   }
+// }
+// console.log(sortProducts(matrix));
+// console.log(matrix);
+//############## Ironhack ###########################
+
