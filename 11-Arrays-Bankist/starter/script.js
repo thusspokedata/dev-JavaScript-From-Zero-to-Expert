@@ -64,6 +64,99 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+
+/////////////////////////////////////////////////////////////////////
+// 147. Creating DOM Elements
+
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = ''; // this delete the default html text
+  movements.forEach(function (mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const html = `
+    <div class="movements__row">
+      <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
+      <div class="movements__value">${mov}</div>
+    </div>
+    `;
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
+
+displayMovements(account1.movements);
+
+//////////////////////////////////////////////////////////////////////
+// 151. Computing Usernames
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance}€`;
+};
+
+calcDisplayBalance(account1.movements);
+
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
+createUsernames(accounts);
+console.log(accounts);
+
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
+};
+calcDisplaySummary(account1.movements);
+
+const out = movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0);
+labelSumOut.textContent = `${Math.abs(out)}€`;
+
+const interest = movements
+  .filter(mov => mov > 0)
+  .map(deposit => deposit * 0.012)
+  .filter((int, i, arr) => {
+    console.log(arr);
+    return int >= 1;
+  })
+  .reduce((acc, mov) => acc + mov, 0);
+labelSumInterest.textContent = `${Math.abs(interest)}`;
+
+// console.log(containerMovements.innerHTML);
+
+//////////////////////////////////////////////////////////////////////////
+// 158. Implementing Login 
+
+// Event handler
+let currentAccount;
+
+btnLogin.addEventListener('click', function(e) {
+  e.preventDefault();
+  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value)
+  console.log(currentAccount);
+  if(currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI message
+
+    // Display movements
+
+    // Display balance 
+
+    // Display summary
+  }
+});
+
+
+
 
 /*
 //////////////////////////////////////////////////////////////////////////
@@ -200,53 +293,7 @@ correnciesUnique.forEach(function (value, key, map) {
 /////////////////////////////////////////////////////////////////////
 // 146. PROJECT: "Bankist" App
 */
-/////////////////////////////////////////////////////////////////////
-// 147. Creating DOM Elements
 
-const displayMovements = function (movements) {
-  containerMovements.innerHTML = ''; // this delete the default html text
-  movements.forEach(function (mov, i) {
-    const type = mov > 0 ? 'deposit' : 'withdrawal';
-    const html = `
-    <div class="movements__row">
-      <div class="movements__type movements__type--${type}">${
-      i + 1
-    } ${type}</div>
-      <div class="movements__value">${mov}</div>
-    </div>
-    `;
-    containerMovements.insertAdjacentHTML('afterbegin', html);
-  });
-};
-
-displayMovements(account1.movements);
-
-//////////////////////////////////////////////////////////////////////
-// 151. Computing Usernames
-
-
-const calcDisplayBalance = function(movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance} EUR`
-}
-
-calcDisplayBalance(account1.movements)
-
-const createUsernames = function(accs) {
-  accs.forEach(function(acc) {
-    acc.username = acc.owner
-      .toLowerCase()
-      .split(' ')
-      .map(name => name[0])
-      .join('');
-      });
-};
-
-createUsernames(accounts);
-console.log(accounts)
-
-
-// console.log(containerMovements.innerHTML);
 /*
 /////////////////////////////////////////////////////////////////////
 // 148. Coding Challenge #1
@@ -335,9 +382,6 @@ const movementsDescriptionsArray = movements.map(
 );
 console.log(movementsDescriptionsArray);
 
-*/
-
-
 
 
 //////////////////////////////////////////////////////////////////////
@@ -359,13 +403,6 @@ for (const  mov of movements) if  (mov > 0) depositsFor.push(mov);
 console.log(depositsFor);
 
 const withdraws = movements.filter(mov => mov < 0);
-
-
-
-
-
-
-
 
 // accumulator -> SNOWBALL
 // const balance = movements.reduce(function(acc, cur, i, arr){
@@ -392,9 +429,64 @@ const max = movements.reduce((acc, mov) => acc > mov ? acc : mov, movements[0])
 console.log(`resultado es ${max}`)
 
 
+///////////////////////////////////////////////////////////////////////////////7
+/// Coding Challenge #2 and #3
 
+const ages = [5, 2, 4, 1, 15, 8, 3];
+const ages2 = [16, 6, 10, 5, 6, 1, 4]
+const calcAverageHumanAge = function (ages) {
+  const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
+  const adults = humanAges.filter(age => age >= 18);
+  const avg = adults.reduce((acc, age) => acc + age, 0) / adults.length;
 
+  return avg;
+};
 
+console.log(calcAverageHumanAge(ages));
+
+//#############################################################
+//############ ARRAY IS BEAUTIFUL!!! ##########################
+//#############################################################
+const calcAverageHumanAgeFinal = ages =>
+  ages
+    .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
+    .filter(age => age >= 18)
+    .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
+
+const avg1 = calcAverageHumanAgeFinal(ages);
+const avg2 = calcAverageHumanAgeFinal(ages2);
+console.log(avg1, avg2)
+
+const eurToUsd = 1.1;
+
+// para que esto funcione, siempre tiene q devolver un array.
+// PIPELINE
+const totalDepositUSD = movements
+  .filter(mov => mov > 0)
+  // .map(mov => mov * eurToUsd)
+  .map((mov, i, arr) => {
+    console.log(arr); // if we want to see that result of only this operation, we can check the current array
+    return mov * eurToUsd;
+  })
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(totalDepositUSD);
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// 157. The find Method
+
+// The Find method is a bit similar to the Filter method, but there are two fundamental differences.
+// First Filter returns all the elements that match the condition while the Find method
+// only returns the first one and second and even more important, the Filter method returns
+// a new array while Find only returns the element itself and not an array.
+
+const firstWithdrawal = movements.find(mov => mov < 0)
+console.log(movements)
+console.log(firstWithdrawal);
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis')
+console.log(account)
 
 
 
@@ -444,7 +536,7 @@ console.log(`resultado es ${max}`)
 //   var result = {tech: [], food: []}
 //   for (const  mat of matrix) {
 //     for (const m of mat) {
-//       m.category === 'tech' ? result.tech.push(m) : result.food.push(m);    
+//       m.category === 'tech' ? result.tech.push(m) : result.food.push(m);
 //     }
 
 //   return result
@@ -453,4 +545,3 @@ console.log(`resultado es ${max}`)
 // console.log(sortProducts(matrix));
 // console.log(matrix);
 //############## Ironhack ###########################
-
