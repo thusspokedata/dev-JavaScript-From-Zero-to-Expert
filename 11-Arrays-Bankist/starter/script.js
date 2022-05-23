@@ -61,11 +61,6 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
 /////////////////////////////////////////////////////////////////////
 // 147. Creating DOM Elements
 
@@ -88,9 +83,9 @@ const displayMovements = function (movements) {
 //////////////////////////////////////////////////////////////////////
 // 151. Computing Usernames
 
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance}€`;
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance}€`;
 };
 
 const createUsernames = function (accs) {
@@ -105,6 +100,15 @@ const createUsernames = function (accs) {
 
 createUsernames(accounts);
 
+const updateUI = function (acc) {
+  // Display movements
+  displayMovements(acc.movements);
+  // Display balance
+  calcDisplayBalance(acc);
+  // Display summary
+  calcDisplaySummary(acc);
+};
+
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
     .filter(mov => mov > 0)
@@ -118,7 +122,7 @@ const calcDisplaySummary = function (acc) {
 
   const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(deposit => deposit * acc.interestRate/100)
+    .map(deposit => (deposit * acc.interestRate) / 100)
     .filter((int, i, arr) => {
       return int >= 1;
     })
@@ -148,17 +152,80 @@ btnLogin.addEventListener('click', function (e) {
     containerApp.style.opacity = 100;
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
-    inputLoginPin.blur() // esto se usa para q el cursor no quede blinkeando
-    // Display movements
-    displayMovements(currentAccount.movements);
-    // Display balance
-    calcDisplayBalance(currentAccount.movements);
-    // Display summary
-    calcDisplaySummary(currentAccount);
+    inputLoginPin.blur(); // esto se usa para q el cursor no quede blinkeando
+    // Update UI
+    updateUI(currentAccount);
   }
 });
 
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+  /* esto hace q una vez hecha la transaccion se borre la informacion en la pag web */
+  inputTransferAmount.value = inputTransferTo.value = '';
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+});
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // Add movement
+    currentAccount.movements.push(amount);
+    // Update UI
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
+});
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+
+    // delete account
+    accounts.splice(index, 1);
+
+    // Hide UI
+    containerApp.style.opacity = 0;
+    labelWelcome.textContent = 'Have a good day, bye!!!';
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
+});
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+// LECTURES
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
 /*
+
+
+
 //////////////////////////////////////////////////////////////////////////
 // 142. Simple Array Methods  SLICE SPLICE REVERSE CONCAT JOIN
 
@@ -471,7 +538,7 @@ const totalDepositUSD = movements
   .reduce((acc, mov) => acc + mov, 0);
 
 console.log(totalDepositUSD);
-*/
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // 157. The find Method
@@ -488,31 +555,67 @@ console.log(totalDepositUSD);
 // const account = accounts.find(acc => acc.owner === 'Jessica Davis')
 // console.log(account)
 
-//############## Ironhack ###########################
-// const matrix = [
-//   [
-//     { product: "MacBook", price: 1019, category: 'tech'},
-//     { product: "Cheerios", price: 5, category: 'food'},
-//   ],
+////////////////////////////////////////////////////////////////////////////////////////
+// 161. some and every
 
-//   [
-//     { product: "Snickers", price: 1.5 , category: 'food'},
-//     { product: "Air Pods", price: 129, category: 'tech'},
-//   ],
-// ]
+// EQUALITY
+console.log(movements.includes(-130)); // true
 
-// function sortProducts (matrix) {
-//   var tech = [];
-//   var food = [];
-//   var result = {tech: [], food: []}
-//   for (const  mat of matrix) {
-//     for (const m of mat) {
-//       m.category === 'tech' ? result.tech.push(m) : result.food.push(m);
-//     }
+// CONDITION
+console.log(movements.some(mov => mov === -130)); // true
+const anyDeposits = movements.some(mov => mov > 5000); // false
+console.log(anyDeposits);
 
-//   return result
-//   }
-// }
-// console.log(sortProducts(matrix));
-// console.log(matrix);
-//############## Ironhack ###########################
+// EVERY 
+console.log(movements.every(mov => mov > 0)); // every one has to be bigger than 0 // False
+console.log(account4.movements.every(mov => mov > 0)); // true
+
+// separate callbak
+const deposit = mov => mov > 0;
+console.log(movements.some(deposit)); // true
+console.log(movements.every(deposit)); // false
+console.log(movements.filter(deposit)); // [200, 450, 3000, 70, 1300]
+*/
+///////////////////////////////////////////////////////////////////////////////////////////
+// 162. flat and flatMap
+
+//#############################################################
+//######################### LINDA!!! ##########################
+//#############################################################
+
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr.flat()); // [1, 2, 3, 4, 5, 6, 7, 8]
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat()); // [Array(2), 3, 4, Array(2), 7, 8]
+console.log(arrDeep.flat().flat()); // [1, 2, 3, 4, 5, 6, 7, 8]
+console.log(arrDeep.flat(2)); // better if I write how deep I want to go // [1, 2, 3, 4, 5, 6, 7, 8]
+
+
+// Toda esta funcion se resume en la de !!!!!!overalBalance2!!!!!!!!!!
+// const accountMovements = accounts.map(acc => acc.movements);
+// console.log(accountMovements); // [Array(8), Array(8), Array(8), Array(5)]
+// const allMovements = accountMovements.flat();
+// console.log(allMovements); // [200, 450, -400, 3000, -650, -130, 70, 1300, 5000, 3400, -150, -790, -3210, -1000, 8500, -30, 200, -200, 340, -300, -20, 50, 400, -460, 430, 1000, 700, 50, 90]
+// const overalBalance = allMovements.reduce((acc, mov) => acc + mov, 0);
+// console.log(overalBalance); // 17840
+
+//#############################################################
+//################amo esta funcion!! ##########################
+//#############################################################
+// flat
+const overalBalance2 = accounts
+  .map(acc => acc.movements) // first we map
+  .flat() // then we flat the function
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance2); // 17840
+
+
+//#############################################################
+//################todavia mas bella!!##########################
+//#############################################################
+// flatMap 
+const overalBalanceFinal = accounts
+  .flatMap(acc => acc.movements) 
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalanceFinal); // 17840
