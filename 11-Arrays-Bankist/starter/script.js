@@ -64,9 +64,11 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////////////////////////
 // 147. Creating DOM Elements
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = ''; // this delete the default html text
-  movements.forEach(function (mov, i) {
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
     <div class="movements__row">
@@ -216,7 +218,12 @@ btnClose.addEventListener('click', function (e) {
   }
   inputCloseUsername.value = inputClosePin.value = '';
 });
-
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -575,7 +582,7 @@ const deposit = mov => mov > 0;
 console.log(movements.some(deposit)); // true
 console.log(movements.every(deposit)); // false
 console.log(movements.filter(deposit)); // [200, 450, 3000, 70, 1300]
-*/
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 // 162. flat and flatMap
 
@@ -590,7 +597,6 @@ const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
 console.log(arrDeep.flat()); // [Array(2), 3, 4, Array(2), 7, 8]
 console.log(arrDeep.flat().flat()); // [1, 2, 3, 4, 5, 6, 7, 8]
 console.log(arrDeep.flat(2)); // better if I write how deep I want to go // [1, 2, 3, 4, 5, 6, 7, 8]
-
 
 // Toda esta funcion se resume en la de !!!!!!overalBalance2!!!!!!!!!!
 // const accountMovements = accounts.map(acc => acc.movements);
@@ -610,12 +616,84 @@ const overalBalance2 = accounts
   .reduce((acc, mov) => acc + mov, 0);
 console.log(overalBalance2); // 17840
 
-
 //#############################################################
 //################todavia mas bella!!##########################
 //#############################################################
-// flatMap 
+// flatMap
 const overalBalanceFinal = accounts
-  .flatMap(acc => acc.movements) 
+  .flatMap(acc => acc.movements)
   .reduce((acc, mov) => acc + mov, 0);
 console.log(overalBalanceFinal); // 17840
+
+///////////////////////////////////////////////////////////////////
+// 163. Sorting Arrays
+
+// strings
+const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+console.log(owners.sort()); // [ "Adam", "Jonas", "Martha", "Zach" ] // this mutate the original array
+console.log(owners); //  [ "Adam", "Jonas", "Martha", "Zach" ]
+
+//numbers
+console.log(movements); // [ 200, 450, -400, 3000, -650, -130, 70, 1300 ]
+console.log(movements.sort()); // [ -130, -400, -650, 1300, 200, 3000, 450, 70 ] // it converts everything to string and then sort it
+console.log(movements); // [ -130, -400, -650, 1300, 200, 3000, 450, 70 ] // it doesnt work properly
+
+// ascending
+// return < 0, A, B (keep order)
+// return > 0, B, A (switch order)
+// movements.sort((a, b) => {
+//   if (a > b) return 1;
+//   if (b > a) return -1;
+// });
+movements.sort((a, b) => a - b); // UNA LOCURA!!!!!!##################
+console.log(movements); // [ -650, -400, -130, 70, 200, 450, 1300, 3000 ] //Perfect!!!!
+
+// descending
+// movements.sort((a, b) => {
+//   if (a < b) return 1;
+//   if (b > a) return -1;
+// });
+// console.log(movements);
+movements.sort((a, b) => (a < b ? 1 : -1)); // BELLO ####################
+console.log(movements);
+*/
+///////////////////////////////////////////////////////////////////
+// 164. More Ways of Creating and Filling Arrays
+
+console.log([1, 2, 3, 4, 5, 6, 7]); // [1, 2, 3, 4, 5, 6, 7]
+console.log(new Array(1, 2, 3, 4, 5, 6, 7)); // [1, 2, 3, 4, 5, 6, 7]
+
+// Empty arrrays + fill method
+const x = new Array(7);
+console.log(x); // [empty × 7]
+console.log(x.map(() => 5)); // [empty × 7]
+
+// x.fill(1);
+// console.log(x); //  [1, 1, 1, 1, 1, 1, 1]
+
+// x.fill(1, 3);
+// console.log(x); // [empty × 3, 1, 1, 1, 1]
+
+x.fill(1, 3, 5);
+console.log(x); // [empty × 3, 1, 1, empty × 2]
+
+const arr = [1, 2, 3, 4, 5, 6, 7];
+arr.fill(23, 4, 6);
+console.log(arr); // [1, 2, 3, 4, 23, 23, 7]
+
+//#############################################################
+//################interesante !!##########################
+//#############################################################
+
+// Array from
+const y = Array.from({ length: 7 }, () => 2);
+console.log(y); // [2, 2, 2, 2, 2, 2, 2]
+
+const z = Array.from({ length: 7 }, (cur, i) => i + 1);
+console.log(z); // [1, 2, 3, 4, 5, 6, 7]
+
+const k = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(k); // [1, 2, 3, 4, 5, 6, 7]
+
+const j = Array.from({ length: 100 }, _ => Math.floor(Math.random() * 100));
+console.log(j); // [1, 2, 3, 4, 5, 6, 7]
