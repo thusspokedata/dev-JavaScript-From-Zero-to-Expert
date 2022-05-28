@@ -656,7 +656,7 @@ console.log(movements); // [ -650, -400, -130, 70, 200, 450, 1300, 3000 ] //Perf
 // console.log(movements);
 movements.sort((a, b) => (a < b ? 1 : -1)); // BELLO ####################
 console.log(movements);
-*/
+
 ///////////////////////////////////////////////////////////////////
 // 164. More Ways of Creating and Filling Arrays
 
@@ -697,3 +697,19 @@ console.log(k); // [1, 2, 3, 4, 5, 6, 7]
 
 const j = Array.from({ length: 100 }, _ => Math.floor(Math.random() * 100));
 console.log(j); // [1, 2, 3, 4, 5, 6, 7]
+
+
+// no se q hice q esto no me funcionó!!!!!!
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => Number(el.textContent.replace('€', ''))
+  );
+  console.log(movementsUI);
+  const movementsUI2 = [...document.querySelectorAll('.movements__value')]
+});
+
+*/
+
+///////////////////////////////////////////////////////////////////
+// 165. Summary: Which Array Method to Use?
