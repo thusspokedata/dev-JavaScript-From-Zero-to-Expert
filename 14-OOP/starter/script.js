@@ -5,10 +5,10 @@
 
 // The only difference between a regular function, and a function that we call constructor function,
 // is that we call a constructor function with the "new" operator.
-
-const Person = function(firstName, birthYear) {
+*/
+const Person = function (firstName, birthYear) {
   this.firstName = firstName;
-  this.birthYear = birthYear
+  this.birthYear = birthYear;
 
   // never do this, never create a method inside of a constructor function. It would be terrible for the performance of our code!
   // this.calcAge = function() {
@@ -16,15 +16,15 @@ const Person = function(firstName, birthYear) {
   // }
 };
 
-const jonas = new Person('Jonas', 1991)
-console.log(jonas) // Person {firstName: 'Jonas', birthYear: 1991}
+const jonas = new Person('Jonas', 1991);
+console.log(jonas); // Person {firstName: 'Jonas', birthYear: 1991}
 
 // 1. New {} is created
 // 2. function is called, this = {}
 // 3. {} linked to prototype
 // 4. function automatically return {}
 
-const matilda = new Person('Matilda', 2017); 
+const matilda = new Person('Matilda', 2017);
 const jack = new Person('Jack', 1975);
 console.log(matilda, jack); // Person {firstName: 'Matilda', birthYear: 2017} , Person {firstName: 'Jack', birthYear: 1975}
 
@@ -32,6 +32,12 @@ console.log(matilda, jack); // Person {firstName: 'Matilda', birthYear: 2017} ,
 // console.log(jay instanceof Person); // false
 console.log(jonas instanceof Person); // true
 
+// this is in relation with chapter 215 (static methods)
+Person.hey = function () {
+  console.log('Hey there!!👍🏼');
+};
+Person.hey(); // Hey there!!👍🏼
+// jonas.hey(); // jonas is not defined
 
 // Note that function constructors are not really a feature of the JavaScript language. Instead, they are simply a pattern that has been developed
 
@@ -40,8 +46,8 @@ console.log(jonas instanceof Person); // true
 
 console.log(Person.prototype); // {constructor: ƒ}
 
-Person.prototype.calcAge = function() {
-   console.log(2022 - this.birthYear)
+Person.prototype.calcAge = function () {
+  console.log(2022 - this.birthYear);
 };
 // we attached it to every single object.
 jonas.calcAge(); // 31
@@ -56,12 +62,12 @@ console.log(Person.prototype.isPrototypeOf(Person)); // false
 
 // .prototypeOfLinkedObjects
 
-Person.prototype.species = "Homo Sapiens";
-console.log(matilda, jack);  // Person {firstName: 'Matilda', birthYear: 2017}birthYear: 2017firstName: "Matilda"[[Prototype]]: ObjectcalcAge: ƒ ()species: "Homo Sapiens"constructor: ƒ (firstName, birthYear)[[Prototype]]: Object Person {firstName: 'Jack', birthYear: 1975}
+Person.prototype.species = 'Homo Sapiens';
+console.log(matilda, jack); // Person {firstName: 'Matilda', birthYear: 2017}birthYear: 2017firstName: "Matilda"[[Prototype]]: ObjectcalcAge: ƒ ()species: "Homo Sapiens"constructor: ƒ (firstName, birthYear)[[Prototype]]: Object Person {firstName: 'Jack', birthYear: 1975}
 console.log(matilda.species, jack.species); // Homo Sapiens Homo Sapiens
 
 // So own properties are only the ones that are declared directly on the object itself. So, not including the inherited properties.
-console.log(matilda)
+console.log(matilda);
 console.log(jonas.hasOwnProperty('firstName')); // true
 console.log(jonas.hasOwnProperty('species')); // false
 
@@ -72,7 +78,7 @@ console.log(jonas.__proto__.__proto__.__proto__); // null -> that's because obje
 
 console.log(Person.prototype.constructor); // we get the function itself
 
-const arr = [3, 6, 4,5,6,9,3]; // new Array === []
+const arr = [3, 6, 4, 5, 6, 9, 3]; // new Array === []
 console.log(arr.__proto__); // [constructor: ƒ, concat: ƒ, copyWithin: ƒ, fill: ƒ, find: ƒ, …]
 console.log(arr.__proto__ === Array.prototype);
 
@@ -84,36 +90,34 @@ Array.prototype.unique = function () {
 
 console.log(arr.unique()); // [3, 6, 4, 5, 9]
 
-const h1 = document.querySelector('h1')
+const h1 = document.querySelector('h1');
 
 ////////////////////////////////////////////////////////////////////////////////
 // 212. Coding Challenge #1
 
-const Car = function(make, speed) {
+const Car = function (make, speed) {
   this.make = make;
   this.speed = speed;
 };
 
-Car.prototype.calcSpeed = function() {
-  this.speed += 10
-  console.log(this.speed)
+Car.prototype.calcSpeed = function () {
+  this.speed += 10;
+  console.log(this.speed);
 };
 
-Car.prototype.calcBrake = function() {
+Car.prototype.calcBrake = function () {
   this.speed -= 5;
-  console.log(this.speed)
+  console.log(this.speed);
 };
 
 const bmw = new Car('BWM', 120);
-const mercedes = new Car('Mercedes', 95)
+const mercedes = new Car('Mercedes', 95);
 bmw.calcSpeed(); // 130
 bmw.calcSpeed(); // 140
-mercedes.calcSpeed() // 105
-mercedes.calcSpeed() // 115
+mercedes.calcSpeed(); // 105
+mercedes.calcSpeed(); // 115
 
 bmw.calcBrake(); // 135
-
-*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // 213. ES6 Classes
@@ -130,6 +134,7 @@ class PersonCl {
     this.fullName = fullName;
     this.birthYear = birthYear;
   }
+  // Instance Method!!!!!
   //Now, what's important to understand here is that all of these methods that we write in the class,
   // so outside of the constructor will be on the prototype of the objects.
   // And not on the objects themselves.
@@ -152,6 +157,11 @@ class PersonCl {
 
   get fullName() {
     return this._fullName;
+  }
+  // static method!!!!!!!
+  static hey() {
+    console.log('Hey there!!👍🏼');
+    console.log(this);
   }
 }
 
@@ -192,5 +202,37 @@ const account = {
 };
 console.log(account.latest);
 
-account.latest = 50;
-console.log(account.movements);
+// account.latest = 50;
+// console.log(account.movements);
+
+///////////////////////////////////////////////////////////////////////
+// 215. Static Methods
+
+// PersonCl.hey(); // apunta a la clase entera, muestra la funcion
+
+// So keep in mind that these static methods are not available on the instances, and sometimes they are still useful to implement
+// some kind of helper function about a class or about a constructor function.
+
+///////////////////////////////////////////////////////////////////////
+// 216. Object.create
+
+const PersonProto = {
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  },
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+const steven = Object.create(PersonProto);
+console.log(steven);
+steven.name = 'Steven';
+steven.birthYear = 2002;
+steven.calcAge(); // 35
+
+console.log(steven.__proto__ === PersonProto); // true
+
+const sarah = Object.create(PersonProto);
+sarah.init('Sarah', 1979); // This is just a manual way of basically initializing the object.
+sarah.calcAge(); // 58
