@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 /////////////////////////////////////////////////////////////////////
 // 208. Constructor Functions and the new Operator
 
@@ -65,4 +65,132 @@ console.log(matilda)
 console.log(jonas.hasOwnProperty('firstName')); // true
 console.log(jonas.hasOwnProperty('species')); // false
 
+console.log(jonas.__proto__); // {species: 'Homo Sapiens', calcAge: ƒ, constructor: ƒ}
+// Object.prototype (top of prototype chain)
+console.log(jonas.__proto__.__proto__); // {constructor: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, …}
+console.log(jonas.__proto__.__proto__.__proto__); // null -> that's because object.prototype is usually the top of the scope chain.
 
+console.log(Person.prototype.constructor); // we get the function itself
+
+const arr = [3, 6, 4,5,6,9,3]; // new Array === []
+console.log(arr.__proto__); // [constructor: ƒ, concat: ƒ, copyWithin: ƒ, fill: ƒ, find: ƒ, …]
+console.log(arr.__proto__ === Array.prototype);
+
+console.log(arr.__proto__.__proto__); // {constructor: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, …}
+
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
+
+console.log(arr.unique()); // [3, 6, 4, 5, 9]
+
+const h1 = document.querySelector('h1')
+
+////////////////////////////////////////////////////////////////////////////////
+// 212. Coding Challenge #1
+
+const Car = function(make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+
+Car.prototype.calcSpeed = function() {
+  this.speed += 10
+  console.log(this.speed)
+};
+
+Car.prototype.calcBrake = function() {
+  this.speed -= 5;
+  console.log(this.speed)
+};
+
+const bmw = new Car('BWM', 120);
+const mercedes = new Car('Mercedes', 95)
+bmw.calcSpeed(); // 130
+bmw.calcSpeed(); // 140
+mercedes.calcSpeed() // 105
+mercedes.calcSpeed() // 115
+
+bmw.calcBrake(); // 135
+
+*/
+
+////////////////////////////////////////////////////////////////////////////////
+// 213. ES6 Classes
+
+// class expression
+// const PersonCl = class {};
+
+//#######################################################
+//########### esto es hermoso!!!!!!!#####################
+//#######################################################
+// class declaration
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+  //Now, what's important to understand here is that all of these methods that we write in the class,
+  // so outside of the constructor will be on the prototype of the objects.
+  // And not on the objects themselves.
+  // Methods will be added to .prototype property
+  calcAge() {
+    console.log(2022 - this.birthYear);
+  }
+  greet() {
+    console.log(`hey ${this.firstName}`);
+  }
+  get age() {
+    return 2022 - this.birthYear;
+  }
+
+  // set a property that already exists
+  set fullName(name) {
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a fullname`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+}
+
+const jessica = new PersonCl('Jessica Nieva', 1996);
+console.log(jessica); // PersonCl {firstName: 'Jessica', birthYear: 1996}
+jessica.calcAge(); // 26
+console.log(jessica.age);
+
+console.log(jessica.__proto__ === PersonCl.prototype); // true
+
+// PersonCl.prototype.greet = function () {
+//   console.log(`hey ${this.firstName}`);
+// };
+jessica.greet();
+const walter = new PersonCl('walter carrizo', 1977);
+// 1. Classes are not hoisted
+// 2. Classes are first class citizen
+// 3. Classes are executed in strict mode
+
+//////////////////////////////////////////////////////////////////////
+// 214. Setters and Getters
+
+// Getters and setters are basically functions that get and set a value so just as the name says,
+// but on the outside they still look like regular properties.
+
+const account = {
+  owner: 'jonas',
+  movements: [200, -130, 300, 500],
+
+  // And then to transform this into a getter we simply prepend the keyword get.
+  // So this can be very useful when we want to read something as a property, but still need to do some calculations before.
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+
+  // set latest(mov)
+  //   this.movements.push(mov)
+};
+console.log(account.latest);
+
+account.latest = 50;
+console.log(account.movements);
