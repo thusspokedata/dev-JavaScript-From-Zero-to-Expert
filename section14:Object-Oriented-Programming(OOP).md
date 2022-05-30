@@ -11,8 +11,8 @@
 + [212. Coding Challenge #1](#section6)
 + [213. ES6 Classes](#section7)
 + [214. Setters and Getters](#section8)
-+ [152. The filter Method](#section9)
-+ [Coding Challenge #2 and #3](#section10)
++ [216. Object.create](#section9)
++ [218. Inheritance Between "Classes": Constructor Functions](#section10)
 + [157. The find Method](#section11)
 + [161. some and every](#section12)
 + [162. flat and flatMap](#section13)
@@ -285,3 +285,59 @@ console.log(account.latest);
 
 
 <img src="https://github.com/thusspokedata/dev-JavaScript-From-Zero-to-Expert/blob/main/images/how-object-create-works.png" width="900">
+
+<a id='section10'></a>
+<h3>218. Inheritance Between "Classes": Constructor Functions</h3> 
+
+[back to Index](#section0
+
+<img src="https://github.com/thusspokedata/dev-JavaScript-From-Zero-to-Expert/blob/main/images/Inheritance-between-classes.png" width="900">
+
+
+```js
+218. Inheritance Between "Classes": Constructor Functions
+
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+
+  Person.prototype.calcAge = function() {
+    console.log(2037 . this.birthYear)
+  }
+};
+
+// const Student = function(firstName, birthYear, course) {
+//   this.firstName = firstName;
+//   this.birthYear = birthYear;
+//   this.course = course;
+// }
+
+
+// better to do and not repeat thee code:
+const Student = function(firstName, birthYear, course) {
+    Person.call(this, firstName, birthYear)
+    this.course = course;
+  }
+
+Student.prototype.introduce = function() {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);}
+
+const mike = new Student('Mike', 2020, 'Computer Science')
+
+mike.introduce()
+
+
+```  
+
+<p>we really want the student class to be the child class and inherit from the person class, which will then function as the parent class. So this way, all instances of student could also get access to methods from the person's prototype property, like the calcAge method through the prototype chain. And that's the whole idea of inheritance. Its the child classes can share behavior from their parent classes. So <b>looking at this diagram, basically what we want to do is to make person dot prototype, the prototype of student dot prototype.</b> Or in other words, we want to set the underscore protal property of student dot prototype to person dot prototype.</p>
+
+<img src="https://github.com/thusspokedata/dev-JavaScript-From-Zero-to-Expert/blob/main/images/inheritance-between-classes2.png" width="900">
+
+
+<p>What we do want is the person's prototype object to be the prototype of student dot prototype. So we want to inherit from it,but it should not be the exact same object.</p>
+
+<img src="https://github.com/thusspokedata/dev-JavaScript-From-Zero-to-Expert/blob/main/images/inheritance-between-classes3.png" width="900">
+
+<p>whenever we try to access a method, that's not on the object's prototype, then JavaScript, will look up even further in the prototype chain and see if it can find a method so in the parent prototype.</p>
+
+<img src="https://github.com/thusspokedata/dev-JavaScript-From-Zero-to-Expert/blob/main/images/inheritance-between-classes3.png" width="900">
