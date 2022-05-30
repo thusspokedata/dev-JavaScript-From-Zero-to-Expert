@@ -341,3 +341,59 @@ mike.introduce()
 <p>whenever we try to access a method, that's not on the object's prototype, then JavaScript, will look up even further in the prototype chain and see if it can find a method so in the parent prototype.</p>
 
 <img src="https://github.com/thusspokedata/dev-JavaScript-From-Zero-to-Expert/blob/main/images/inheritance-between-classes3.png" width="900">
+
+
+```js  
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+
+  Person.prototype.calcAge = function() {
+    console.log(2037 - this.birthYear)
+  }
+};
+
+// const Student = function(firstName, birthYear, course) {
+//   this.firstName = firstName;
+//   this.birthYear = birthYear;
+//   this.course = course;
+// }
+
+
+// better to do and not repeat thee code:
+const Student = function(firstName, birthYear, course) {
+    Person.call(this, firstName, birthYear)
+    this.course = course;
+  }
+
+// linking prototypes
+Student.prototype = Object.create(Person.prototype)
+
+Student.prototype.introduce = function() {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);}
+
+const mike = new Student('Mike', 2020, 'Computer Science')
+
+mike.introduce();
+mike.calcAge();
+
+console.log(mike.__proto__.__proto__);
+
+
+// JavaScript now, thinks that the constructor of student or prototype is person here. And the reason for that is
+// that we set the prototype property of the student using object.create. And so this makes it so
+// that the constructor of student dot prototype is still person.
+// So we need to fix this because sometimes it's important to rely on this constructor property.
+console.dir(Student.prototype.constructor); // ƒ Person(firstName, birthYear)
+
+console.log(mike instanceof Student) // true
+
+
+console.log(mike instanceof Person) // true
+// it's because I linked the prototypes together. (when I did: Student.prototype = Object.create(Person.prototype))
+
+console.log(mike instanceof Object) // true
+
+Student.prototype.constructor = Student
+console.dir(Student.prototype.constructor); // ƒ Student(firstName, birthYear, course)
+
