@@ -31,7 +31,7 @@
 
 <img src="https://github.com/thusspokedata/dev-JavaScript-From-Zero-to-Expert/blob/main/images/classes.png" width="900"> 
 
-<img src="https://github.com/thusspokedata/dev-JavaScript-From-Zero-to-Expert/blob/main/images/abstraction" width="900">
+<img src="https://github.com/thusspokedata/dev-JavaScript-From-Zero-to-Expert/blob/main/images/abstraction.png" width="900">
 
 <img src="https://github.com/thusspokedata/dev-JavaScript-From-Zero-to-Expert/blob/main/images/encapsulation.png" width="900"> 
 
