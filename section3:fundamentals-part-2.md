@@ -9,7 +9,7 @@
 + [35. Arrow Functions](#section4)
 + [36. Functions Calling Other Functions](#section5)
 + [37. Reviewing Functions](#section6)
-+ [38. Coding Challenge #1(#section7)
++ [38. Coding Challenge #1](#section7)
 + [39. Introduction to Arrays](#section8)
 + [40. Basic Array Operations (Methods)](#section9)
 + [41. Coding Challenge #2](#section10)
