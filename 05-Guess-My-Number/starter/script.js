@@ -1,17 +1,50 @@
 'use strict';
 /*
-console.log(document.querySelector('.message').textContent);
-document.querySelector('.message').textContent = 'Correct Number!';
+
+///////////////////////////////////////////////////////////////////////////////////////
+// 72. Selecting and Manipulating Elements
+console.log(document.querySelector('.message').textContent); // Start guessing...
+document.querySelector('.message').textContent = 'Correct Number!'; 
+console.log(document.querySelector('.message').textContent); // Correct Number!
+
 
 document.querySelector('.number').textContent = 13;
+console.log(document.querySelector('.number').textContent) // 13
 document.querySelector('.score').textContent = 10;
+console.log(document.querySelector('.score').textContent) // 10
 
-document.querySelector('.guess').value = 23;
-console.log(document.querySelector('.guess').value);
+document.querySelector('.guess').value = 9;
+// console.log(document.querySelector('.guess').value); // 23
 
+document.querySelector('.check').addEventListener('click', function() {
+  console.log(document.querySelector('.guess').value) // when I click with the mouse I get 9
+}) // there are many ways, this is probably the better
+
+
+document.querySelector('.check').addEventListener('click', function() {
+  const guess = document.querySelector('.guess').value
+  console.log(typeof guess);  // string
+                      // usually whenever we get something from the user interface, for example, 
+                      //from an input field, it usually always is a string.
+}) 
+
+// we nedd to transform this to a number
+document.querySelector('.check').addEventListener('click', function() {
+  const guess = Number(document.querySelector('.guess').value)
+  console.log(guess, typeof guess);  // 0, 'number'
+
+  if (!guess) {// 0 in this logical context of the FL statement will be false
+    document.querySelector('.message').textContent = 'No Number'; // No number
+  }
+})       
+  
 */
 
-let secretNumber = Math.trunc(Math.random()*20)+1;
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// 74. Implementing the Game Logic
+
+let secretNumber = Math.trunc(Math.random()*20)+1; // Math.trunc remove decimals
 let score = 20;
 let highscore = 0;
 
@@ -44,7 +77,10 @@ document.querySelector('.check').addEventListener('click', function () {
     // document.querySelector('.score').textContent = score;
     takeScore(score);
     document.querySelector('body').style.backgroundColor = '#60b347';
-    // document.querySelector('.number').style.width = '30rem';
+                                                                      // And in this case, it is the background color. So background and in CSS, we write the background color like this
+                                                                      // "background-color". However, in JavaScript that's not allowed.In JavaScript  all these property names that have two words
+                                                                      // like background-color will simply adopt the Camel case notation
+                                                                          // document.querySelector('.number').style.width = '30rem';
     sectorNumber('30rem')
     document.querySelector('.number').textContent = secretNumber;
     if (highscore < score) {
@@ -66,7 +102,7 @@ document.querySelector('.check').addEventListener('click', function () {
   }
 });
 
-    
+
   // old way
   // } else if (guess > secretNumber) {
   //   score--;
@@ -101,3 +137,4 @@ document.querySelector('.again').addEventListener('click', function () {
   sectorNumber('15rem')
   
 });
+
